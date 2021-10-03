@@ -63,10 +63,12 @@ The second data set was the month precipitation data in 2018 and 2019. The datas
 ## Problem 2
 
 Read and clean pols-month.csv.
+
 ```{r}
 pols_month_df = 
   read_csv("./data/fivethirtyeight/pols-month.csv") %>% 
   janitor::clean_names() %>% 
+  drop_na() %>% 
   separate(mon, into = c("year", "month", "day"), sep = "-") %>% 
   mutate(month = month.name[as.integer(month)]) 
 
@@ -82,8 +84,23 @@ pols_month_clean =
 view(pols_month_clean)
 ```
 
+Second, clean the data in snp.csv using a similar process to the above. For consistency across datasets, arrange according to year and month, and organize so that year and month are the leading columns.
+
+Read and clean snp.csv.
 
 
+
+
+```{r}
+snp_df = 
+  read_csv("./data/fivethirtyeight/snp.csv") %>% 
+  janitor::clean_names() %>% 
+  drop_na() %>% 
+  separate(date, into = c("year", "month", "day"), sep = "/") %>% 
+  mutate(month = month.name[as.integer(month)]) %>% 
+  arrange(year, month) %>% 
+  relocate(year, month)
+```
 
 
 
