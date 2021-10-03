@@ -5,9 +5,10 @@ date: "2021/10/3"
 output: github_document
 ---
 
-```{r library, echo = FALSE}
+```{r library, echo = FALSE, include=FALSE}
 library(tidyverse)
 library(readxl)
+library(lubridate)
 ```
 
 ## Problem 1
@@ -79,28 +80,42 @@ pols_month_clean =
     names_to  = "president",
     values_to  = "values"
   ) %>% 
-  filter(president != c("prez_dem","prez_gop")) %>% 
+  filter(!president %in% c("prez_dem","prez_gop")) %>% 
   select(-day)
 view(pols_month_clean)
 ```
 
-Second, clean the data in snp.csv using a similar process to the above. For consistency across datasets, arrange according to year and month, and organize so that year and month are the leading columns.
-
 Read and clean snp.csv.
-
-
-
 
 ```{r}
 snp_df = 
   read_csv("./data/fivethirtyeight/snp.csv") %>% 
   janitor::clean_names() %>% 
   drop_na() %>% 
-  separate(date, into = c("year", "month", "day"), sep = "/") %>% 
+  mutate(date = mdy(as.character(date))) %>% 
+  separate(date, into = c("year", "month", "day"), sep = "-") %>% 
   mutate(month = month.name[as.integer(month)]) %>% 
   arrange(year, month) %>% 
   relocate(year, month)
+view(snp_df) 
 ```
 
+Read and clean unemployment.csv.
 
+```{r}
+unemployment_df = 
+  read_csv("./data/fivethirtyeight/unemployment.csv") %>% 
+  janitor::clean_names() %>% 
+  drop_na() 
+
+unemployment_clean =
+  pivot_longer(
+    unemployment_df,
+    jan:dec,
+    names_to = "month",
+    values_to = "percentage"
+  ) %>% 
+view(unemployment_clean)
+  
+```
 
