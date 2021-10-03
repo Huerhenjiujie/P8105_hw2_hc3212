@@ -5,8 +5,22 @@ date: "2021/10/3"
 output: github_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r library, echo = FALSE}
+library(tidyverse)
+library(readxl)
+```
+
+## Problem 1
+
+Read and clean the Mr. Trash Wheel sheet
+
+```{r}
+trash_wheel_df = 
+  read_excel("./Trashwheel.xlsx", sheet = "Mr. Trash Wheel", range = "A2:N408") %>% 
+  janitor::clean_names() %>% 
+  drop_na(dumpster) %>% 
+  mutate(sports_balls = as.integer(sports_balls)) %>%  
+  view
 ```
 
 
