@@ -12,15 +12,37 @@ library(readxl)
 
 ## Problem 1
 
-Read and clean the Mr. Trash Wheel sheet
+Read and clean the Mr. Trash Wheel sheet.
 
 ```{r}
 trash_wheel_df = 
   read_excel("./Trashwheel.xlsx", sheet = "Mr. Trash Wheel", range = "A2:N408") %>% 
   janitor::clean_names() %>% 
   drop_na(dumpster) %>% 
-  mutate(sports_balls = as.integer(sports_balls)) %>%  
-  view
+  mutate(sports_balls = as.integer(sports_balls))
+view(trash_wheel_df)
 ```
+
+Read and clean precipitation data for 2018 and 2019.
+
+```{r}
+pre_2018_df = 
+  read_excel("./Trashwheel.xlsx", sheet = "2018 Precipitation", range = "A2:B15") %>%
+  janitor::clean_names() %>% 
+  drop_na(month, total) %>% 
+  mutate(year = 2018) %>% 
+  relocate(year) 
+view(pre_2018_df)
+
+pre_2019_df = 
+  read_excel("./Trashwheel.xlsx", sheet = "2019 Precipitation", range = "A2:B15") %>%
+  janitor::clean_names() %>% 
+  drop_na(month, total) %>% 
+  mutate(year = 2019) %>%
+  relocate(year) 
+view(pre_2019_df)
+```
+
+
 
 
