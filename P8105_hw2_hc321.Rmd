@@ -61,7 +61,7 @@ The second data set was the month precipitation data in 2018 and 2019. The datas
 
 Read and clean pols-month.csv.
 
-```{r pols_month_df}
+```{r pols_month_df, message = FALSE}
 pols_month_df = 
   read_csv("./data/fivethirtyeight/pols-month.csv") %>% 
   janitor::clean_names() %>% 
@@ -83,7 +83,7 @@ view(pols_month_clean_df)
 
 Read and clean snp.csv.
 
-```{r snp_df}
+```{r snp_df, message = FALSE}
 snp_df = 
   read_csv("./data/fivethirtyeight/snp.csv") %>% 
   janitor::clean_names() %>% 
@@ -99,7 +99,7 @@ view(snp_df)
 
 Read and clean unemployment.csv.
 
-```{r unemployment_df}
+```{r unemployment_df,message = FALSE}
 unemployment_df = 
   read_csv("./data/fivethirtyeight/unemployment.csv") %>% 
   janitor::clean_names() %>% 
@@ -118,7 +118,7 @@ view(unemployment_clean_df)
 
 Join the datasets.
 
-```{r merging_Fivethirtyeight}
+```{r merging_Fivethirtyeight, message = FALSE}
 pols_tidy_df =
   pols_month_clean_df %>% 
   mutate(month = paste(month, "01", sep = "-"),
@@ -167,23 +167,29 @@ The Fivethirtyeight dataset contains information on the political landscape, sto
 
 Read and clean the NYC Popular_Birth_Name.csv.
 
-```{r NYC_birthname_df}
+```{r NYC_birthname_df, message = FALSE}
 NYC_birthname_df = 
   read_csv("./data/Popular_Baby_Names.csv") %>% 
   janitor::clean_names() %>%  
   drop_na() %>%
-  mutate(
-    childs_first_name = toupper(childs_first_name), 
-    ethnicity = gsub(
-      c("BLACK NON HISP", "WHITE NON HISP", "ASIAN AND PACI"),
-      c("BLACK NON HISPANIC", "WHITE NON HISPANIC", "ASIAN AND PACIFIC ISLANDER"),
-      pull(.,ethnicity))) %>% 
+  mutate(childs_first_name = toupper(childs_first_name), 
+         ethnicity = gsub("BLACK NON HISP$", "BLACK NON HISPANIC", pull(.,ethnicity)),
+         ethnicity = gsub("WHITE NON HISP$", "WHITE NON HISPANIC", pull(.,ethnicity)),
+         ethnicity = gsub("ASIAN AND PACI$", "ASIAN AND PACIFIC ISLANDER", pull(.,ethnicity))) %>% 
   distinct()
 view(NYC_birthname_df)
-
-  
-  
 ```
+
+Build Olivial popularity table.
+
+```{r Olivial, message = FALSE}
+Olivial_df = 
+  filter(NYC_birthname_df, childs_first_name == "OLIVIA", gender =="FEMALE") %>% 
+  select(-count) %>% 
+  knitr::kable()
+
+```
+
 
 
 Produce a well-structured, reader-friendly table showing the rank in popularity of the name “Olivia” as a female baby name over time; this should have rows for ethnicities and columns for year. Produce a similar table showing the most popular name among male children over time.
