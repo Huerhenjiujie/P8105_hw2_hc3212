@@ -147,11 +147,11 @@ unemployment_tidy_df =
 view(unemployment_tidy_df) 
 
 pols_snp_df = 
-  left_join(pols_tidy_df,snp_tidy_df,by = c("date" = "date")) 
+  full_join(pols_tidy_df,snp_tidy_df,by = c("date" = "date")) 
 view(pols_snp_df)
 
 Fivethirtyeight_df =
-  left_join(pols_snp_df,unemployment_tidy_df, by = c("date" = "date"))
+  full_join(pols_snp_df,unemployment_tidy_df, by = c("date" = "date"))
 view(Fivethirtyeight_df)
 ```
 
@@ -193,9 +193,35 @@ Olivial_df =
 Olivial_df
 ```
 
+Build the table of most popular name in male.
+
+```{r male_popular_name, message = FALSE}
+Male_popular_df = 
+  NYC_birthname_df %>% 
+  filter( gender =="MALE") %>% 
+  select(-count) %>% 
+  relocate(rank) %>% 
+  arrange(rank) %>% 
+  head() %>% 
+  knitr::kable()
+Male_popular_df
+```
+
+Generate the plot of the number of children with a name vs  the rank in popularity of that name in male, white non-hispanic children born in 2016.
+
+```{r child_name_2016, echo = FALSE}
+Child_popular_df = 
+  NYC_birthname_df %>% 
+  filter( 
+    gender == "MALE", 
+    ethnicity == "WHITE NON HISPANIC",
+    year_of_birth == 2016) %>% 
+  select(rank, count)
+
+plot(Child_popular_df, main = "Name number vs in male, white non-hispanic children, 2016",  col = "blue", xlab = "Name rank", ylab = "Number of children with name")
+```
 
 
-Produce a well-structured, reader-friendly table showing the rank in popularity of the name “Olivia” as a female baby name over time; this should have rows for ethnicities and columns for year. Produce a similar table showing the most popular name among male children over time.
 
 Finally, for male, white non-hispanic children born in 2016, produce a scatter plot showing the number of children with a name (y axis) against the rank in popularity of that name (x axis).
 
