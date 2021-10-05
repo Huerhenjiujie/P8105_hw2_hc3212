@@ -138,7 +138,7 @@ snp_tidy_df =
 view(snp_tidy_df) 
 
 unemployment_tidy_df =
-  snp_df %>% 
+  unemployment_clean_df %>% 
   mutate(month = paste(month, "01", sep = "-"),
          month = as.Date(month, format = "%B-%d"),
          month = month(month)
@@ -207,6 +207,7 @@ Male_popular_df =
 Male_popular_df
 ```
 
+
 Generate the plot of the number of children with a name vs  the rank in popularity of that name in male, white non-hispanic children born in 2016.
 
 ```{r child_name_2016, echo = FALSE}
@@ -223,7 +224,7 @@ plot(Child_popular_df, main = "Name number vs in male, white non-hispanic childr
 
 
 
-Finally, for male, white non-hispanic children born in 2016, produce a scatter plot showing the number of children with a name (y axis) against the rank in popularity of that name (x axis).
+
 
 
 
