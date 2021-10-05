@@ -74,7 +74,7 @@ pols_month_clean_df =
     pols_month_df, 
     prez_gop:rep_dem,
     names_to  = "president",
-    values_to  = "values"
+    values_to  = "president_values"
   ) %>% 
   filter(!president %in% c("prez_dem","prez_gop")) %>% 
   select(-day)
@@ -147,12 +147,12 @@ unemployment_tidy_df =
 view(unemployment_tidy_df) 
 
 pols_snp_df = 
-  full_join(pols_tidy_df,snp_tidy_df,by = c("date" = "date")) 
+  left_join(pols_tidy_df,snp_tidy_df,by = c("date" = "date")) 
 view(pols_snp_df)
 
 Fivethirtyeight_df =
   left_join(pols_snp_df,unemployment_tidy_df, by = c("date" = "date"))
-Fivethirtyeight_df
+view(Fivethirtyeight_df)
 ```
 
 The pols-month dataset describes the political landscape information of the US from `r min(pull(pols_month_clean_df, year))` to `r max(pull(pols_month_clean_df, year))`. There are a total of `r nrow(pols_tidy_df)` rows, and `r ncol(pols_tidy_df)` columns in our final dataset. The dataset contains information on `r colnames(pols_tidy_df)`.
@@ -184,10 +184,13 @@ Build Olivial popularity table.
 
 ```{r Olivial, message = FALSE}
 Olivial_df = 
-  filter(NYC_birthname_df, childs_first_name == "OLIVIA", gender =="FEMALE") %>% 
+  NYC_birthname_df %>% 
+  filter(childs_first_name == "OLIVIA", gender =="FEMALE") %>% 
   select(-count) %>% 
+  relocate(rank) %>% 
+  arrange(rank) %>% 
   knitr::kable()
-
+Olivial_df
 ```
 
 
