@@ -16,6 +16,8 @@ knitr::opts_chunk$set(
   out.width = "90%"
 )
 theme_set(theme_minimal() + theme(legend.position = "bottom"))
+scale_color_discrete = scale_color_viridis_d
+scale_fill_discrete = scale_fill_viridis_d
 ```
 
 ## Problem 1
