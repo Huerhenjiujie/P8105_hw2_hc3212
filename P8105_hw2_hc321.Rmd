@@ -15,6 +15,7 @@ knitr::opts_chunk$set(
   fig.asp = .6,
   out.width = "90%"
 )
+theme_set(theme_minimal() + theme(legend.position = "bottom"))
 ```
 
 ## Problem 1
@@ -235,9 +236,11 @@ Child_popular_plot =
   Child_popular_df %>% 
   ggplot(aes(x = rank, y = count)) +
   geom_point(alpha = .5) +
-  xlab("Rank of name") + 
-  ylab("Number of children with name") + 
-  labs(title = "Rank Vs. Number of child's name")
+  labs(
+    title = "Rank Vs. Number of child's name",
+    x = "Rank of name",
+    y = "Number of children with name",
+    caption = "data from NYC popular birth name")
 
 Child_popular_plot
 ```
