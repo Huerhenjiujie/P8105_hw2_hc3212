@@ -185,9 +185,9 @@ NYC_birthname_df =
   janitor::clean_names() %>%  
   drop_na() %>%
   mutate(childs_first_name = toupper(childs_first_name), 
-         enthnicity =  gsub("BLACK NON HISP$", "BLACK NON HISPANIC", pull(.,ethnicity)),
-         enthnicity = gsub("WHITE NON HISP$", "WHITE NON HISPANIC", pull(.,ethnicity)),
-         enthnicity = gsub("ASIAN AND PACI$", "ASIAN AND PACIFIC ISLANDER", pull(.,ethnicity))) %>% 
+         ethnicity =  gsub("BLACK NON HISP$", "BLACK NON HISPANIC", pull(.,ethnicity)),
+         ethnicity = gsub("WHITE NON HISP$", "WHITE NON HISPANIC", pull(.,ethnicity)),
+         ethnicity = gsub("ASIAN AND PACI$", "ASIAN AND PACIFIC ISLANDER", pull(.,ethnicity))) %>% 
   distinct()
 view(NYC_birthname_df)
 ```
