@@ -53,7 +53,7 @@ pre_2019_df =
 Precipitation combine.
 
 ```{r merging_pre}
-NPre_df= 
+NPre_df = 
   bind_rows(pre_2018_df, pre_2019_df) %>% 
   mutate(month = month.name[month])
 ```
@@ -196,7 +196,7 @@ Build Olivial popularity table.
 ```{r Olivial, message = FALSE}
 Olivial_df = 
   NYC_birthname_df %>% 
-  filter(childs_first_name == "OLIVIA", gender =="FEMALE") %>% 
+  filter(childs_first_name == "OLIVIA", gender == "FEMALE") %>% 
   select(-count) %>% 
   pivot_wider(
     names_from = year_of_birth,
