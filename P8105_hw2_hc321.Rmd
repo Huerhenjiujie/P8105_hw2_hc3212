@@ -99,6 +99,7 @@ snp_df =
   separate(date, into = c("year", "month", "day"), sep = "-") %>% 
   mutate(
     year = as.integer(year),
+    year = ifelse(year > 2021, year - 100, year),
     month = as.integer(month), 
     day = as.integer(day),
     month = month.name[month]) %>% 
