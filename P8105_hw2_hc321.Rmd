@@ -26,7 +26,7 @@ Read and clean the Mr. Trash Wheel sheet.
 
 ```{r trash_wheel_df}
 trash_wheel_df = 
-  read_excel("./data/Trashwheel.xlsx", sheet = "Mr. Trash Wheel", range = "A2:N408") %>% 
+  read_excel("./data/Trashwheel.xlsx", sheet = "Mr. Trash Wheel", range = "A2:N534") %>% 
   janitor::clean_names() %>% 
   drop_na(dumpster) %>% 
   mutate(sports_balls = as.integer(sports_balls))
