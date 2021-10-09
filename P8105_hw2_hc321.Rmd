@@ -133,27 +133,21 @@ Join the datasets.
 ```{r merging_Fivethirtyeight, message = FALSE}
 pols_tidy_df =
   pols_month_df %>% 
-  mutate(month = paste(month, "01", sep = "-"),
-         month = as.Date(month, format = "%B-%d"),
-         month = month(month)
+  mutate(month = match(month, month.name),
          ) %>% 
   unite(date,year,month,sep = "-")
 view(pols_tidy_df) 
 
 snp_tidy_df =
   snp_df %>% 
-  mutate(month = paste(month, "15", sep = "-"),
-         month = as.Date(month, format = "%B-%d"),
-         month = month(month)
+  mutate(month = match(month, month.name),
          ) %>% 
   unite(date,year,month,sep = "-")
 view(snp_tidy_df) 
 
 unemployment_tidy_df =
   unemployment_clean_df %>% 
-  mutate(month = paste(month, "01", sep = "-"),
-         month = as.Date(month, format = "%B-%d"),
-         month = month(month)
+  mutate(month = match(month, month.abb),
          ) %>% 
   unite(date,year,month,sep = "-")
 view(unemployment_tidy_df) 
